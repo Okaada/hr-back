@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hr_system_v2.Infrastructure.Context;
 
 namespace hr_system_v2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211115195309_AddDependentTable")]
+    partial class AddDependentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,9 +295,6 @@ namespace hr_system_v2.Migrations
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Salary")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.ToTable("Contracts");
@@ -321,60 +320,13 @@ namespace hr_system_v2.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Dependents", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CPF")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FathersName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsBloodDonor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsHandicapped")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MothersName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PersonalEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Sex")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Dependents");
-                });
-
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Employee", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ContractId")
+                    b.Property<Guid?>("ContractId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -383,7 +335,7 @@ namespace hr_system_v2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -405,6 +357,10 @@ namespace hr_system_v2.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FathersName")
@@ -435,6 +391,18 @@ namespace hr_system_v2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Person");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
+                });
+
+            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Dependents", b =>
+                {
+                    b.HasBaseType("hr_system_v2.Infrastructure.Models.Person");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasDiscriminator().HasValue("Dependents");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -504,30 +472,15 @@ namespace hr_system_v2.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Dependents", b =>
-                {
-                    b.HasOne("hr_system_v2.Infrastructure.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Employee", b =>
                 {
                     b.HasOne("hr_system_v2.Infrastructure.Models.Contract", "Contract")
                         .WithMany()
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContractId");
 
                     b.HasOne("hr_system_v2.Infrastructure.Models.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonId");
 
                     b.Navigation("Contract");
 

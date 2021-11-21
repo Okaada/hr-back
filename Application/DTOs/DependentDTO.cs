@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace hr_system_v2.Infrastructure.Models
+namespace hr_system_v2.Application.DTOs
 {
-    public class Dependents
+    public class DependentDTO
     {
+        
         public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string CPF { get; set; }
         public string Phone { get; set; }

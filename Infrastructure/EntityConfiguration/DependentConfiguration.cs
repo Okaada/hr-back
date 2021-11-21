@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace hr.api.Infrastructure.EntityConfiguration
+namespace hr_system_v2.Infrastructure.EntityConfiguration
 {
-    public class PersonConfiguration : IEntityTypeConfiguration<Person>
+    public class DependentConfiguration: IEntityTypeConfiguration<Dependents>
     {
-        public void Configure(EntityTypeBuilder<Person> builder)
+        public void Configure(EntityTypeBuilder<Dependents> builder)
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
@@ -31,9 +31,6 @@ namespace hr.api.Infrastructure.EntityConfiguration
 
             builder.Property(c => c.Name)
                    .IsRequired();
-
-            builder.OwnsMany(c => c.Address, owner => { owner.HasKey("PersonId"); });
-                   
 
             builder.Property(c => c.FathersName);
 

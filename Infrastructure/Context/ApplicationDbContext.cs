@@ -15,11 +15,11 @@ namespace hr_system_v2.Infrastructure.Context
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<Person> People{ get; set; }
+        public DbSet<Person> Person { get; set; }
+        public DbSet<Dependents> Dependents { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Department> Departments{ get; set; }
         public DbSet<Employee> Employees{ get; set; }
-        public DbSet<Function> Functions{ get; set; }
-        public DbSet<Gender> Genders{ get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
     }
 }

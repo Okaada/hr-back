@@ -37,7 +37,7 @@ namespace hr.api.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public UserInfo Find(int id)
+        public UserInfo Find(Guid id)
         {
             throw new NotImplementedException();
         }

@@ -19,7 +19,5 @@ namespace hr_system_v2.Infrastructure.Models
         public string MothersName { get; set; }
         public bool IsHandicapped { get; set; }
         public bool IsBloodDonor { get; set; }
-        public Gender Gender { get; set; }
-
     }
 }

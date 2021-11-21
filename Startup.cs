@@ -1,11 +1,15 @@
+using hr.api.Infrastructure.RepositoryInterfaces;
 using hr.api.Utils;
+using hr_system_v2.Application.Services.Implementation;
+using hr_system_v2.Application.Services.Interfaces;
 using hr_system_v2.Infrastructure.Context;
 using hr_system_v2.Infrastructure.Models;
+using hr_system_v2.Infrastructure.Repository;
+using hr_system_v2.Infrastructure.RepositoryInterfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -88,7 +92,25 @@ namespace hr_system_v2
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
+            });
+
             services.AddSingleton<IJWT, JWT>();
+            services.AddScoped<ICandidateService, CandidateService>();
+            services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IContractService, ContractService>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<ICandidateRepository, CandidateRepository>();
+            services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,11 +123,14 @@ namespace hr_system_v2
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "hr_system_v2 v1"));
             }
 
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStatusCodePages();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

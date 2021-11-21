@@ -2,6 +2,6 @@
 {
     public class Benefits
     {
-        public BenefitsType BenefitType { get; set; }
+        //public BenefitsType BenefitType { get; set; }
     }
 }

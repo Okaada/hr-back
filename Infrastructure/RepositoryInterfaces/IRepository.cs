@@ -8,7 +8,7 @@ namespace hr_system_v2.Infrastructure.RepositoryInterfaces
 {
     public interface IRepository<T>
     {
-        T Find(int id);
+        T Find(Guid id);
         IQueryable<T> List();
         void Add(T item);
         void Delete(T item);

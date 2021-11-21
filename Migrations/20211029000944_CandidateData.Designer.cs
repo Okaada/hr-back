@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hr_system_v2.Infrastructure.Context;
 
 namespace hr_system_v2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211029000944_CandidateData")]
+    partial class CandidateData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,16 +289,15 @@ namespace hr_system_v2.Migrations
                     b.Property<DateTime?>("FiredDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Function")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("FunctionId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Salary")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("FunctionId");
 
                     b.ToTable("Contracts");
                 });
@@ -321,60 +322,13 @@ namespace hr_system_v2.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Dependents", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CPF")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FathersName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsBloodDonor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsHandicapped")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MothersName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PersonalEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Sex")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Dependents");
-                });
-
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Employee", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ContractId")
+                    b.Property<Guid?>("ContractId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -383,7 +337,7 @@ namespace hr_system_v2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PersonId")
+                    b.Property<Guid?>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -393,6 +347,41 @@ namespace hr_system_v2.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Function", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Functions");
+                });
+
+            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Gender", b =>
+                {
+                    b.Property<int>("GenderType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("GenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GenderType");
+
+                    b.ToTable("Genders");
                 });
 
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Person", b =>
@@ -410,6 +399,9 @@ namespace hr_system_v2.Migrations
                     b.Property<string>("FathersName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GenderType")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsBloodDonor")
                         .HasColumnType("bit");
 
@@ -434,7 +426,9 @@ namespace hr_system_v2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Person");
+                    b.HasIndex("GenderType");
+
+                    b.ToTable("People");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -495,6 +489,15 @@ namespace hr_system_v2.Migrations
                         .HasForeignKey("PersonId");
                 });
 
+            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Contract", b =>
+                {
+                    b.HasOne("hr_system_v2.Infrastructure.Models.Function", "Function")
+                        .WithMany()
+                        .HasForeignKey("FunctionId");
+
+                    b.Navigation("Function");
+                });
+
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Department", b =>
                 {
                     b.HasOne("hr_system_v2.Infrastructure.Models.Employee", "Manager")
@@ -504,34 +507,37 @@ namespace hr_system_v2.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Dependents", b =>
-                {
-                    b.HasOne("hr_system_v2.Infrastructure.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Employee", b =>
                 {
                     b.HasOne("hr_system_v2.Infrastructure.Models.Contract", "Contract")
                         .WithMany()
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContractId");
 
                     b.HasOne("hr_system_v2.Infrastructure.Models.Person", "Person")
                         .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonId");
 
                     b.Navigation("Contract");
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Function", b =>
+                {
+                    b.HasOne("hr_system_v2.Infrastructure.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Person", b =>
+                {
+                    b.HasOne("hr_system_v2.Infrastructure.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderType");
+
+                    b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("hr_system_v2.Infrastructure.Models.Person", b =>

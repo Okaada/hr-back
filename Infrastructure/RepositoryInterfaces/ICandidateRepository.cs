@@ -3,7 +3,8 @@ using System;
 
 namespace hr_system_v2.Infrastructure.RepositoryInterfaces
 {
-    public interface IContractRepository: IRepository<Contract>, IDisposable
+    public interface ICandidateRepository : IRepository<Candidate>, IDisposable
     {
+    
     }
 }

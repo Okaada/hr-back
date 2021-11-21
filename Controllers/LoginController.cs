@@ -1,6 +1,7 @@
 ﻿using hr.api.Utils;
 using hr_system_v2.Application.DTOs;
 using hr_system_v2.Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,9 @@ namespace hr_system_v2.Controllers
             _jwt = jwt;
         }
 
-        [HttpPost, Route("login")]
+
+        [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDTO user)
         {
 

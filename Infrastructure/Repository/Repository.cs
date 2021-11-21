@@ -14,16 +14,16 @@ namespace hr.api.Infrastructure.Repository
     {
         private ApplicationDbContext _context;
 
-        public Repository(IUnitOfWork unitOfWork)
+        public Repository(IUnitOfWork unitOfWork, ApplicationDbContext context)
         {
+
             if (unitOfWork == null)
                 throw new ArgumentNullException("unitOfWork");
 
-            _context = unitOfWork as ApplicationDbContext;
+            _context = context;
         }
 
-
-        public T Find(int id)
+        public T Find(Guid id)
         {
             return _context.Set<T>().Find(id);
         }
@@ -53,6 +53,5 @@ namespace hr.api.Infrastructure.Repository
             _context.Dispose();
         }
 
-      
     }
 }

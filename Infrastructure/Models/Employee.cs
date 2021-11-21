@@ -10,6 +10,8 @@ namespace hr_system_v2.Infrastructure.Models
         public Guid Id { get; set; }
         public Person Person { get; set; }
         public Contract Contract { get; set; }
+        public Guid ContractId{ get; set; }
+        public Guid PersonId{ get; set; }
         public bool IsActive { get; set; }
         public string Email { get; set; }
     }
