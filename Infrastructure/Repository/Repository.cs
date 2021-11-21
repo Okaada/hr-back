@@ -28,6 +28,12 @@ namespace hr.api.Infrastructure.Repository
             return _context.Set<T>().Find(id);
         }
 
+        public T Find(int id)
+        {
+            return _context.Set<T>().Find(id);
+        }
+
+
         public IQueryable<T> List()
         {
             return _context.Set<T>();

@@ -7,7 +7,8 @@ namespace hr_system_v2.Application.DTOs
 {
     public class DepartmentDTO
     {
-        public int Id { get; set; }
+        public Guid EmployeeId { get; set; }
+        public string Name { get; set; }
 
     }
 }

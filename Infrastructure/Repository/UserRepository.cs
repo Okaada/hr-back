@@ -8,43 +8,12 @@ using System.Linq;
 
 namespace hr.api.Infrastructure.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<UserInfo>, IUserRepository
     {
-        private ApplicationDbContext _context;
-
-        public UserRepository(ApplicationDbContext context)
+        private readonly IUnitOfWork _uow;
+        public UserRepository(IUnitOfWork unitOfWork, ApplicationDbContext context) : base(unitOfWork, context)
         {
-            _context = context;
-        }
-
-        public void Add(UserInfo item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(UserInfo item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Edit(UserInfo item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UserInfo Find(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<UserInfo> List()
-        {
-            throw new NotImplementedException();
+            _uow = unitOfWork;
         }
     }
 }

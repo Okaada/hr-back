@@ -101,14 +101,21 @@ namespace hr_system_v2
                     .SetIsOriginAllowed((host) => true));
             });
 
+            //Services and Helpers
             services.AddSingleton<IJWT, JWT>();
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IDependentService, DependentService>();
             services.AddScoped<IContractService, ContractService>();
+            
+            //Repositories
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IDependentRepository, DependentRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }

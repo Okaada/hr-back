@@ -10,6 +10,6 @@ namespace hr_system_v2.Infrastructure.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-        public Employee Manager { get; set; }
+        public Guid ManagerId { get; set; }
     }
 }

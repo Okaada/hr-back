@@ -75,9 +75,6 @@ namespace hr_system_v2.Controllers
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DesactivateEmployee([FromQuery]  Guid id)
         {
-            if (id == null)
-                return BadRequest();
-
             try
             {
                 _employeeService.DesactivateEmployee(id);
@@ -96,9 +93,6 @@ namespace hr_system_v2.Controllers
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete([FromQuery] Guid id)
         {
-            if (id == null)
-                return BadRequest();
-
             try
             {
                 _employeeService.DeleteEmployee(id);
