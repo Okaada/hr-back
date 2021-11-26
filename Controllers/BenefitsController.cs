@@ -15,7 +15,6 @@ namespace hr_system_v2.Controllers
     public class BenefitsController : ControllerBase
     {
         private readonly IBenefitsTypeService _benefitsTypeService;
-        //private readonly IContractBene _benefitsTypeService;
         public BenefitsController(IBenefitsTypeService benefitsTypeService)
         {
             _benefitsTypeService = benefitsTypeService;

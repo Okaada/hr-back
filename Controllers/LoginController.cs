@@ -64,18 +64,18 @@ namespace hr_system_v2.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> SentEmail([FromBody] string email)
+        public async Task<IActionResult> SentEmail([FromBody] SentEmailDTO email)
         {
             Random rnd = new Random();
 
-            var user = await _userManager.FindByNameAsync(email);
+            var user = await _userManager.FindByNameAsync(email.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             int otp = rnd.Next();
 
             var reset = new ResetPassword()
             {   
                 Id = Guid.NewGuid(),
-                Email = email,
+                Email = email.Email,
                 OTP = otp.ToString(),
                 InsertDateTimeUTC = DateTime.UtcNow,
                 UserId = Guid.Parse(user.Id),
@@ -86,7 +86,7 @@ namespace hr_system_v2.Controllers
             _uow.Commit();
 
             EmailSender emailSender = new EmailSender();
-            emailSender.SendEmail(email, otp.ToString());
+            emailSender.SendEmail(email.Email, otp.ToString());
 
             return Ok();
         }
