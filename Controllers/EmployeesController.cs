@@ -88,7 +88,7 @@ namespace hr_system_v2.Controllers
 
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(Guid id)

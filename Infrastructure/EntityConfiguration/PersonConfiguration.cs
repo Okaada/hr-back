@@ -30,10 +30,7 @@ namespace hr.api.Infrastructure.EntityConfiguration
                    .IsRequired();
 
             builder.Property(c => c.Name)
-                   .IsRequired();
-
-            builder.OwnsMany(c => c.Address, owner => { owner.HasKey("PersonId"); });
-                   
+                   .IsRequired();                   
 
             builder.Property(c => c.FathersName);
 

@@ -21,10 +21,10 @@ namespace hr_system_v2.Application.Services.Implementation
         }
 
         public async Task<Department> AddDepartment(DepartmentDTO departmentDTO)
-        { 
+        {
             var department = new Department()
             {
-                ManagerId = departmentDTO.EmployeeId,
+                ManagerId = departmentDTO.ManagerId,
                 Name = departmentDTO.Name
             };
 
@@ -42,9 +42,21 @@ namespace hr_system_v2.Application.Services.Implementation
             _uow.Commit();
         }
 
+        public List<Department> GetDepartments()
+        {
+            return _repository.List().ToList();
+        }
+
         public void UpdateDepartment(DepartmentDTO departmentDTO, int id)
         {
-            throw new NotImplementedException();
+            var dep = _repository.Find(id);
+
+
+            dep.ManagerId = departmentDTO.ManagerId;
+            dep.Name = departmentDTO.Name;
+
+            _repository.Edit(dep);
+            _uow.Commit();
         }
     }
 }

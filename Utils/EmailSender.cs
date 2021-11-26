@@ -20,7 +20,7 @@ namespace hr_system_v2.Utils
 
             try
             {
-                client.Send("passwordDelivery@RH.com", toEmail, "Reset Passwrod", code);
+                client.Send("passwordDelivery@RH.com", toEmail, "Reset Password", code);
             }
             catch (SmtpException ex)
             {

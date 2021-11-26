@@ -30,6 +30,11 @@ namespace hr_system_v2.Application.Services.Implementation
             _uow.Commit();
         }
 
+        public List<BenefitsType> GetBenefits()
+        {
+            return _repo.List().ToList(); 
+        }
+
         public void DeleteBefenit(int id)
         {
             var benefit = _repo.Find(id);

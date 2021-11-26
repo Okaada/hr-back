@@ -9,7 +9,7 @@ namespace hr_system_v2.Infrastructure.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<Address> Address { get; set; }
+        public Address Address { get; set; }
         public string CPF { get; set; }
         public string Phone { get; set; }
         public string PersonalEmail { get; set; }

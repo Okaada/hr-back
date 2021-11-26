@@ -18,6 +18,7 @@ namespace hr_system_v2.Infrastructure.Context
         public DbSet<ResetPassword> ResetPasswords{ get; set; }
         public DbSet<ContractBenefits> ContractBenefits{ get; set; }
         public DbSet<Person> Person { get; set; }
+        public DbSet<Address> Address { get; set; }
         public DbSet<Dependents> Dependents { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Department> Departments{ get; set; }

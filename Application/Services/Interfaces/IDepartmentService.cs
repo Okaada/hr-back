@@ -12,6 +12,7 @@ namespace hr_system_v2.Application.Services.Interfaces
         Task<Department> AddDepartment(DepartmentDTO departmentDTO);
         void UpdateDepartment(DepartmentDTO departmentDTO, int id);
         void DeleteDepartment(int id);
+        List<Department> GetDepartments();
         
     }
 }

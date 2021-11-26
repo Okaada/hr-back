@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -25,7 +26,7 @@ namespace hr_system_v2.Controllers
         private readonly IJWT _jwt;
         public UsersController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration, 
+            IConfiguration configuration,
             IJWT jwt)
         {
             _userManager = userManager;
@@ -34,9 +35,9 @@ namespace hr_system_v2.Controllers
             _jwt = jwt;
         }
 
-        [HttpPost("create")] 
-        [ProducesResponseType(typeof(StatusCodeResult), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), (int) HttpStatusCode.Unauthorized)]
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
         public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -49,6 +50,23 @@ namespace hr_system_v2.Controllers
             {
                 return BadRequest("Usuário ou senha inválidos");
             }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult<UserInfo>> GetAll()
+        {
+            var result = _userManager.Users;
+            List<UserInfo> list = new List<UserInfo>();
+            foreach (var item in result)
+            {
+                UserInfo user = new UserInfo();
+                user.Email = item.UserName;
+                user.Id = Guid.Parse(item.Id);
+                list.Add(user);
+            }
+            return Ok(list);
         }
     }
 }

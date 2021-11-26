@@ -12,6 +12,7 @@ namespace hr_system_v2.Application.DTOs
         public DateTime HireDate { get; set; }
         public DateTime? FiredDate { get; set; }
         public double Salary { get; set; }
-        //public IReadOnlyCollection<Benefits> Benefits { get; set; }
+        public Guid Id { get; set; }
+
     }
 }

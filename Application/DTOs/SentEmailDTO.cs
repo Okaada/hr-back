@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace hr_system_v2.Application.DTOs
 {
-    public class DepartmentDTO
+    public class SentEmailDTO
     {
-        public int Id { get; set; }
-        public Guid ManagerId { get; set; }
-        public string Name { get; set; }
-
+        public string Email{ get; set; }
     }
 }
