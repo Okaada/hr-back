@@ -10,6 +10,5 @@ namespace hr_system_v2.Infrastructure.Models
         public DateTime HireDate { get; set; }
         public DateTime? FiredDate { get; set; }
         public double Salary { get; set; }
-        //public IReadOnlyCollection<Benefits> Benefits { get; set; }
     }
 }

@@ -16,7 +16,10 @@ namespace hr_system_v2.Application.Services.Implementation
         private readonly IContractRepository _contractRepository;
         private readonly IUnitOfWork _uow;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IUnitOfWork uow, IContractRepository contractRepository, IPersonRepository personRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository,
+                               IUnitOfWork uow,
+                               IContractRepository contractRepository,
+                               IPersonRepository personRepository)
         {
             _employeeRepository = employeeRepository;
             _uow = uow;
@@ -26,20 +29,23 @@ namespace hr_system_v2.Application.Services.Implementation
 
         public async Task<Employee> CreateEmployee(Contract contract, Person person)
         {
+            var emails = _employeeRepository.List();
+
+
             var employee = new Employee()
             {
                 Contract = contract,
-                Email = person.Name.ToLower() + "@" + "hrsystem.com.br",
                 Id = Guid.NewGuid(),
                 IsActive = true,
                 Person = person
             };
 
+            employee.Email = GenerateEmail(emails, employee.Person);
+           
             _employeeRepository.Add(employee);
             _uow.Commit();
 
             return employee;
-
         }
 
         public void DeleteEmployee(Guid id)
@@ -61,7 +67,7 @@ namespace hr_system_v2.Application.Services.Implementation
 
         public async Task<List<Employee>> GetEmployees()
         {
-            var employeeList =  _employeeRepository.List().ToList();
+            var employeeList = _employeeRepository.List().ToList();
             return employeeList;
         }
 
@@ -80,6 +86,24 @@ namespace hr_system_v2.Application.Services.Implementation
             employee.Contract.Id = Guid.NewGuid();
             _employeeRepository.Edit(employee);
             _uow.Commit();
+        }
+
+        private static string GenerateEmail(IQueryable<Employee> emails, Person person)
+        {
+            var name = person.Name.Split(" ");
+            var nameToEmail = name.First() + "." + name.Last() + "@hrsystem.com.br";
+
+            Random rnd = new Random();
+            foreach (var item in emails)
+            {
+                if (item.Email == nameToEmail)
+                {
+                    var randomNumber = rnd.Next();
+                    nameToEmail = name.First() + "." + name.Last() + $"{randomNumber}" + "@hrsystem.com.br";
+                    return nameToEmail;
+                }
+            }
+            return nameToEmail;
         }
     }
 }

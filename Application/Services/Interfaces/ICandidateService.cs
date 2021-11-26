@@ -10,8 +10,10 @@ namespace hr_system_v2.Application.Services.Interfaces
 {
     public interface ICandidateService
     {
-        Task<Candidate> CreateCandidate(CanditateDTO canditateDTO);
-        Task<List<CanditateDTO>> GetCandidates();
-        Task<CanditateDTO> GetCandidateDetail(Guid id);
+        Task<Candidate> CreateCandidate(CandidateDTO canditateDTO);
+        Task<List<CandidateDTO>> GetCandidates();
+        Task<CandidateDTO> GetCandidateDetail(Guid id);
+        void UpdateCandidate(CandidateDTO candidateDTO);
+        void DeleteCandidate(Guid id);
     }
 }

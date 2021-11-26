@@ -63,7 +63,7 @@ namespace hr.api.Utils
                 issuer: _issuer,
                 audience: _audience,
                 claims: new List<Claim>(),
-                expires: DateTime.Now.AddMinutes(2),
+                expires: DateTime.Now.AddMinutes(40),
                 signingCredentials: signinCredentials);
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
             return tokenString;

@@ -26,12 +26,12 @@ namespace hr_system_v2.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateCandidate([FromBody] CanditateDTO model)
+        public async Task<IActionResult> CreateCandidate([FromBody] CandidateDTO canditateDTO)
         {
-            if (model.Equals(null))
+            if (canditateDTO.Equals(null))
                 return BadRequest();
 
-            var candidate = await _service.CreateCandidate(model);
+            var candidate = await _service.CreateCandidate(canditateDTO);
 
             return Ok(candidate);
         }
@@ -46,21 +46,58 @@ namespace hr_system_v2.Controllers
             var candidates = await _service.GetCandidates();
             if (candidates.Count == 0)
                 return NotFound();
-            
+
             return Ok(candidates);
         }
 
         [HttpGet]
         [Route("candidate/{id}")]
-        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetCandidateById([FromQuery] Guid id)
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCandidateById(Guid id)
         {
             var candidate = await _service.GetCandidateDetail(id);
             if (candidate.Equals(null))
                 return NotFound();
 
             return Ok(candidate);
+        }
+
+        [HttpPut("update/{id}")]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Update(Guid id, [FromBody] CandidateDTO canditateDTO)
+        {
+            canditateDTO.Id = id;
+            if (canditateDTO.Equals(null))
+                return BadRequest();
+
+            try
+            {
+                _service.UpdateCandidate(canditateDTO);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteCandidate(Guid id)
+        {
+            try
+            {
+                _service.DeleteCandidate(id);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
     }
 }

@@ -14,6 +14,6 @@ namespace hr_system_v2.Infrastructure.Models
         public string City { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        //public string Curriculum { get; set; }
+        public byte[] Curriculum { get; set; }
     }
 }

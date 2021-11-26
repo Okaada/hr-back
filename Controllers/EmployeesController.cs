@@ -60,7 +60,7 @@ namespace hr_system_v2.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetEmployees([FromQuery] Guid id)
+        public async Task<IActionResult> GetEmployees(Guid id)
         {
             var employee = await _employeeService.GetEmployeesById(id);
 
@@ -73,7 +73,7 @@ namespace hr_system_v2.Controllers
         [HttpPut("desactivate/{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DesactivateEmployee([FromQuery]  Guid id)
+        public async Task<IActionResult> DesactivateEmployee(Guid id)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace hr_system_v2.Controllers
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Delete([FromQuery] Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {

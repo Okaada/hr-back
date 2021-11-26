@@ -55,7 +55,7 @@ namespace hr_system_v2.Controllers
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteDepartment([FromQuery] int id)
+        public async Task<IActionResult> DeleteDepartment(int id)
         {
             try
             {

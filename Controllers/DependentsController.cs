@@ -39,7 +39,7 @@ namespace hr_system_v2.Controllers
         [HttpDelete("remove/{id}")]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> RemoveDependent([FromQuery] Guid id)
+        public async Task<IActionResult> RemoveDependent(Guid id)
         {
 
             try

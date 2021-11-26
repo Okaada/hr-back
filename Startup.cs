@@ -108,6 +108,8 @@ namespace hr_system_v2
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IDependentService, DependentService>();
+            services.AddScoped<IContractBenefitService, ContractBenefitService>();
+            services.AddScoped<IBenefitsTypeService, BenefitsTypeService>();
             services.AddScoped<IContractService, ContractService>();
             
             //Repositories
@@ -116,7 +118,11 @@ namespace hr_system_v2
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IDependentRepository, DependentRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IResetPasswordRepository, ResetPasswordRepository>();
+            services.AddScoped<IContractBenefitsRepository, ContractBenefitsRepository>();
+            services.AddScoped<IBenefitsRepository, BenefitsTypeRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
