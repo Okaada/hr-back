@@ -8,8 +8,10 @@ namespace hr_system_v2.Application.DTOs
 {
     public class PersonDTO
     {
+        
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<AddressDTO> Address { get; set; }
+        public AddressDTO Address { get; set; }
         public string CPF { get; set; }
         public string Phone { get; set; }
         public string PersonalEmail { get; set; }

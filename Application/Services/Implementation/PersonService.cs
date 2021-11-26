@@ -19,31 +19,27 @@ namespace hr_system_v2.Application.Services.Implementation
             _uow = uow;
         }
 
-        public async Task<List<Address>> BuildAddress(List<AddressDTO> address)
+        public async Task<Address> BuildAddress(AddressDTO address)
         {
-            var addressList = new List<Address>();
-            
-            foreach (var item in address)
-            {
-                var newAddress = new Address();
-                newAddress.City = item.City;
-                newAddress.Code = item.Code;
-                newAddress.District = item.District;
-                newAddress.Number = item.Number;
-                newAddress.State = item.State;
-                newAddress.Street = item.Street;
-                newAddress.Id = Guid.NewGuid();
-                addressList.Add(newAddress);
-            }
 
-            return addressList;
+            var newAddress = new Address();
+            newAddress.City = address.City;
+            newAddress.Code = address.Code;
+            newAddress.District = address.District;
+            newAddress.Number = address.Number;
+            newAddress.State = address.State;
+            newAddress.Street = address.Street;
+            newAddress.PersonId = address.PersonId;
+            newAddress.Id = Guid.NewGuid();
+
+            return newAddress;
         }
 
         public async Task<Person> CreatePerson(PersonDTO personDto)
         {
             var address = await BuildAddress(personDto.Address);
             var person = new Person()
-            { 
+            {
                 Address = address,
                 BirthDate = personDto.BirthDate,
                 CPF = personDto.CPF,
@@ -61,7 +57,7 @@ namespace hr_system_v2.Application.Services.Implementation
             _personRepository.Add(person);
             _uow.Commit();
 
-            return person;   
+            return person;
         }
 
         public void DeletePersonById(Guid id)
@@ -98,7 +94,7 @@ namespace hr_system_v2.Application.Services.Implementation
             person.PersonalEmail = personDto.PersonalEmail;
             person.Phone = personDto.Phone;
             person.Sex = personDto.Sex;
-         
+
             _personRepository.Edit(person);
             _uow.Commit();
 

@@ -7,6 +7,8 @@ namespace hr_system_v2.Application.DTOs
 {
     public class AddressDTO
     {
+        public Guid Id { get; set; }
+        public Guid PersonId { get; set; }
         public string Street { get; set; }
         public string District { get; set; }
         public string Number { get; set; }

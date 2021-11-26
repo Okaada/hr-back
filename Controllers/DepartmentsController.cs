@@ -38,11 +38,11 @@ namespace hr_system_v2.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentDTO departmentDTO)
+        public async Task<IActionResult> UpdateDepartment([FromBody] DepartmentDTO departmentDTO)
         {
             try
             {
-                _service.UpdateDepartment(departmentDTO, id);
+                _service.UpdateDepartment(departmentDTO, departmentDTO.Id);
                 return Ok();
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace hr_system_v2.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteDepartment(int id)
@@ -65,6 +65,23 @@ namespace hr_system_v2.Controllers
             catch (Exception)
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetDepartments()
+        {
+            try
+            {
+                var departments = _service.GetDepartments();
+                return Ok(departments);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex);
             }
         }
     }

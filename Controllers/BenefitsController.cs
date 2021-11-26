@@ -1,4 +1,5 @@
-﻿using hr_system_v2.Application.Services.Interfaces;
+﻿using hr_system_v2.Application.DTOs;
+using hr_system_v2.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,14 +24,14 @@ namespace hr_system_v2.Controllers
         [HttpPost("create")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateBenefits([FromBody] string benefitName)
+        public async Task<IActionResult> CreateBenefits([FromBody] BenefitsTypeDTO benefitsType)
         {
-            if (benefitName == null)
+            if (benefitsType == null)
                 return BadRequest();
 
             try
             {
-                _benefitsTypeService.CreateBenefit(benefitName);
+                _benefitsTypeService.CreateBenefit(benefitsType.Name);
                 return Ok();
             }
             catch (Exception)
@@ -40,7 +41,22 @@ namespace hr_system_v2.Controllers
 
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetBenefits()
+        {
+
+            var benefits = _benefitsTypeService.GetBenefits();
+
+            if (benefits.Count == 0)
+                return NoContent();
+            
+            return Ok(benefits);
+
+        }
+
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteDepartment(int id)
@@ -63,14 +79,14 @@ namespace hr_system_v2.Controllers
         [HttpPut("update/{id}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(StatusCodeResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteDepartment(int id, [FromBody] string newName)
+        public async Task<IActionResult> UpdateBenefit([FromBody] BenefitsTypeDTO dto)
         {
-            if (id == null)
+            if (dto.Id == null)
                 return BadRequest();
 
             try
             {
-                _benefitsTypeService.UpdateBenefits(id, newName);
+                _benefitsTypeService.UpdateBenefits(dto.Id, dto.Name);
                 return Ok();
             }
             catch (Exception)

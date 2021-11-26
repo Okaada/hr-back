@@ -14,6 +14,6 @@ namespace hr_system_v2.Application.Services.Interfaces
         void DeletePersonById(Guid id);
         Task<PersonDTO> GetPeople();
         Task<PersonDTO> GetPersonByCPF(string cpf);
-        Task<List<Address>> BuildAddress(List<AddressDTO> address);
+        Task<Address> BuildAddress(AddressDTO address);
     }
 }
